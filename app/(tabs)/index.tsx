@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Pressable } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { Link } from "expo-router";
@@ -8,25 +8,34 @@ interface TabOneScreenProps {
   // Put any props needed here
 }
 
+export let budgetSpan: number = 0;
+
 const TabOneScreen: React.FC<TabOneScreenProps> = () => {
+
+  const [budget, setBudget] = useState(0);
+
+  budgetSpan = budget;
+
+
   return (
+    // Thinking to add Festival Background PNG as a background image
     <View style={styles.container}>
       <Text style={styles.title}>Build Your Own Festival</Text>
 
     <Link href="/lineup" asChild>
-      <Pressable style={styles.button}>
+      <Pressable style={styles.button} onPress={() => { setBudget(1000000)}}>
         <Text style={styles.text}>Small Festival</Text>
       </Pressable>
     </Link>
 
     <Link href="/lineup" asChild>
-      <Pressable style={styles.button2}>
+      <Pressable style={styles.button2} onPress={() => { setBudget(50000000)}}>
         <Text style={styles.text}>Medium Festival</Text>
       </Pressable>
     </Link>
 
     <Link href="/lineup" asChild>
-      <Pressable style={styles.button3}>
+      <Pressable style={styles.button3} onPress={() => { setBudget(100000000)}}>
         <Text style={styles.text}>Large Festival</Text>
       </Pressable>
     </Link>
