@@ -5,6 +5,9 @@ import { budgetSpan } from '.';
 import { useNavigation } from '@react-navigation/native';
 import Festname from '@/components/festname';
 import Theme from '@/components/theme';
+import Headliners from '@/components/headliners';
+import Subheaders from '@/components/subheaders';
+import SupportActs from '@/components/supportacts';
 
 export default function TabTwoScreen() {
     const navigation = useNavigation();
@@ -26,6 +29,9 @@ export default function TabTwoScreen() {
             <View style={styles.buttonContainer}>
                 <Festname />
                 <Theme />
+                <Headliners />
+                <Subheaders />
+                <SupportActs />
             </View>
             <Pressable style={styles.button}>
                     <Text style={styles.buttonText}>Generate</Text>
