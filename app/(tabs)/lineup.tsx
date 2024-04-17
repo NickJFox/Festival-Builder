@@ -4,6 +4,7 @@ import { Text, View } from '@/components/Themed';
 import { budgetSpan } from '.';
 import { useNavigation } from '@react-navigation/native';
 import Festname from '@/components/festname';
+import Theme from '@/components/theme';
 
 export default function TabTwoScreen() {
     const navigation = useNavigation();
@@ -23,21 +24,8 @@ export default function TabTwoScreen() {
                 <Text style={styles.budgetText}>Budget: {formattedBudget}</Text>
             </View>
             <View style={styles.buttonContainer}>
-                <Pressable style={styles.button}>
-                    <Text style={styles.buttonText}>Choose Festival Name</Text>
-                </Pressable>
-                <Pressable style={styles.button}>
-                    <Text style={styles.buttonText}>Choose Festival Theme</Text>
-                </Pressable>
-                <Pressable style={styles.button}>
-                    <Text style={styles.buttonText}>Choose 2 Headliners</Text>
-                </Pressable>
-                <Pressable style={styles.button}>
-                    <Text style={styles.buttonText}>Choose 4 Sub-headers</Text>
-                </Pressable>
-                <Pressable style={styles.button}>
-                    <Text style={styles.buttonText}>Choose 8 Support Acts</Text>
-                </Pressable>
+                <Festname />
+                <Theme />
             </View>
             <Pressable style={styles.button}>
                     <Text style={styles.buttonText}>Generate</Text>
@@ -54,7 +42,7 @@ const styles = StyleSheet.create({
     },
     backButton: {
         position: 'absolute',
-        top: 60,
+        top: 40,
         left: 20,
         padding: 15,
     },
@@ -63,29 +51,36 @@ const styles = StyleSheet.create({
     },
     budgetContainer: {
         position: 'absolute',
-        top: 140,
+        top: 100,
         left: 20,
+        zIndex: 2,
     },
     budgetText: {
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: 'bold'
     },
     buttonContainer: {
-        marginTop: 40,
-        flexDirection: 'column',
+        marginTop: 180,
         alignItems: 'center',
-        marginBottom: 50,
+        marginVertical: 50,
     },
     button: {
         backgroundColor: 'blue',
-        marginVertical: 20, // Added marginVertical to space out buttons
-        padding: 15,
+        paddingVertical: 15,
+        paddingHorizontal: 20,
         borderRadius: 10,
         minWidth: 200,
-        alignItems: 'center', 
+        alignItems: 'center',
+        marginBottom: 10,
     },
     buttonText: {
         color: 'white',
         fontWeight: 'bold',
     },
 });
+
+
+
+
+
+
