@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Pressable, Modal, View, Text, TextInput, ScrollView, Image } from 'react-native';
 import { encode } from 'base-64';
+import { MaterialIcons } from '@expo/vector-icons';
 
-const clientId = '1a3d3da496d644dcbc9692bdd12edbab'; 
+const clientId = '1a3d3da496d644dcbc9692bdd12edbab';
 const clientSecret = 'ab050522e497418ea0c5c33af68385a1';
 
 type ErrorType = any;
@@ -72,21 +73,15 @@ const Headliners: React.FC = () => {
     const handleSelectArtist = (artist: any) => {
         if (selectedArtists.length < 2) {
             setSelectedArtists([...selectedArtists, artist]);
+            setModalVisible(false); // Close the modal
         }
     };
 
-    const renderArtistItem = ({ item }: { item: any }) => (
-        <Pressable onPress={() => handleSelectArtist(item)} style={styles.artistContainer}>
-            <Image
-                style={styles.artistImage}
-                source={{ uri: item.images.length > 0 ? item.images[0].url : 'placeholder.png' }}
-            />
-            <View style={styles.artistInfo}>
-                <Text style={styles.artistName}>{item.name}</Text>
-                <Text style={styles.artistFollowers}>Followers: {item.followers.total.toLocaleString()}</Text>
-            </View>
-        </Pressable>
-    );
+    const handleDeleteArtist = (index: number) => {
+        const updatedArtists = [...selectedArtists];
+        updatedArtists.splice(index, 1);
+        setSelectedArtists(updatedArtists);
+    };
 
     return (
         <View style={styles.container}>
@@ -118,18 +113,25 @@ const Headliners: React.FC = () => {
                         </Pressable>
                         {error && <Text style={styles.errorText}>Error: {error.message}</Text>}
                         <ScrollView style={styles.scrollView}>
-                            {searchResults.map((item) => (
-                                <Pressable key={item.id} onPress={() => handleSelectArtist(item)} style={styles.artistContainer}>
-                                    <Image
-                                        style={styles.artistImage}
-                                        source={{ uri: item.images.length > 0 ? item.images[0].url : 'placeholder.png' }}
-                                    />
-                                    <View style={styles.artistInfo}>
-                                        <Text style={styles.artistName}>{item.name}</Text>
-                                        <Text style={styles.artistFollowers}>Followers: {item.followers.total.toLocaleString()}</Text>
-                                    </View>
-                                </Pressable>
-                            ))}
+                            {searchResults.map((item) => {
+                                const artistCost = Math.round(0.20 * item.followers.total).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                });
+
+                                return (
+                                    <Pressable key={item.id} onPress={() => handleSelectArtist(item)} style={styles.artistContainer}>
+                                        <Image
+                                            style={styles.artistImage}
+                                            source={{ uri: item.images.length > 0 ? item.images[0].url : 'placeholder.png' }}
+                                        />
+                                        <View>
+                                            <Text style={styles.artistName}>{item.name}</Text>
+                                            <Text style={styles.artistFollowers}>Artist Cost: {artistCost}</Text>
+                                        </View>
+                                    </Pressable>
+                                );
+                            })}
                         </ScrollView>
                         <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>
                             <Text style={styles.closeButtonText}>Close</Text>
@@ -142,7 +144,12 @@ const Headliners: React.FC = () => {
                 <View style={styles.selectedArtistsContainer}>
                     <Text style={styles.selectedArtistsText}>Selected Artists:</Text>
                     {selectedArtists.map((artist, index) => (
-                        <Text key={index} style={styles.selectedArtistName}>{artist.name}</Text>
+                        <View key={index} style={styles.selectedArtistContainer}>
+                            <Text style={styles.selectedArtistName}>{artist.name}</Text>
+                            <Pressable onPress={() => handleDeleteArtist(index)} style={styles.deleteButton}>
+                                <MaterialIcons name="delete" size={24} color="red" />
+                            </Pressable>
+                        </View>
                     ))}
                 </View>
             )}
@@ -247,8 +254,16 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 5,
     },
+    selectedArtistContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 5,
+    },
     selectedArtistName: {
         marginLeft: 10,
+    },
+    deleteButton: {
+        marginLeft: 'auto',
     },
     scrollView: {
         maxHeight: 200, // Limit the height of the ScrollView to enable scrolling
