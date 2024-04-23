@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, Pressable } from 'react-native';
-import { Text, View } from '@/components/Themed';
+import { Text, View } from '../../components/Themed';
 import { budgetSpan } from '.';
 import { useNavigation } from '@react-navigation/native';
-import Festname from '@/components/festname';
-import Theme from '@/components/theme';
-import Headliners from '@/components/headliners';
-import Subheaders from '@/components/subheaders';
-import SupportActs from '@/components/supportacts';
+import Festname from '../../components/festname';
+import Theme from '../../components/theme';
+import Headliners from '../../components/headliners';
+import Subheaders from '../../components/subheaders';
+import SupportActs from '../../components/supportacts';
 
 export default function TabTwoScreen() {
     const navigation = useNavigation();

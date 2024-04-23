@@ -1,20 +1,47 @@
 import React, { useState } from 'react';
-import { StyleSheet, Pressable, Modal, View, Text } from 'react-native';
+import { StyleSheet, Pressable, Modal, View, Text, TextInput, ScrollView, Image } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import { base64Encode, getAccessToken, fetchArtists } from './spotify';
 
 const Subheaders: React.FC = () => {
-    const [selectedSubheader, setSelectedSubheader] = useState<string>('');
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [searchResults, setSearchResults] = useState<any[]>([]);
     const [modalVisible, setModalVisible] = useState<boolean>(false);
+    const [error, setError] = useState<any>(null);
+    const [selectedArtists, setSelectedArtists] = useState<any[]>([]);
 
-    const handleSelectSubheader = (subheader: string) => {
-        setSelectedSubheader(subheader);
-        setModalVisible(false);
-        // Perform any action with the selectedSubheader state here, such as saving it to a database or displaying it below the button.
+    const searchArtists = async () => {
+        const query = searchTerm.trim();
+        if (query === '') {
+            return;
+        }
+
+        try {
+            const accessToken = await getAccessToken();
+            const artists = await fetchArtists(query, accessToken);
+            setSearchResults(artists);
+        } catch (error) {
+            setError(error);
+        }
+    };
+
+    const handleSelectArtist = (artist: any) => {
+        if (selectedArtists.length < 4) {
+            setSelectedArtists([...selectedArtists, artist]);
+            setModalVisible(false); // Close the modal
+        }
+    };
+
+    const handleDeleteArtist = (index: number) => {
+        const updatedArtists = [...selectedArtists];
+        updatedArtists.splice(index, 1);
+        setSelectedArtists(updatedArtists);
     };
 
     return (
-        <View>
+        <View style={styles.container}>
             <Pressable onPress={() => setModalVisible(true)} style={styles.button}>
-                <Text style={styles.buttonText}>Choose Subheader</Text>
+                <Text style={styles.buttonText}>Choose 4 Sub-Headliners</Text>
             </Pressable>
 
             <Modal
@@ -22,24 +49,45 @@ const Subheaders: React.FC = () => {
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    console.log("Modal Closed");
                     setModalVisible(false);
+                    setSearchResults([]);
+                    setSearchTerm('');
+                    setError(null);
                 }}
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <Pressable
-                            style={[styles.subheaderButton, selectedSubheader === 'Subheader 1' && styles.selectedSubheaderButton]}
-                            onPress={() => handleSelectSubheader('Subheader 1')}
-                        >
-                            <Text style={styles.subheaderButtonText}>Subheader 1</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Search for an artist"
+                            onChangeText={setSearchTerm}
+                            onSubmitEditing={searchArtists}
+                        />
+                        <Pressable onPress={searchArtists} style={styles.searchButton}>
+                            <Text style={styles.searchButtonText}>Search</Text>
                         </Pressable>
-                        <Pressable
-                            style={[styles.subheaderButton, selectedSubheader === 'Subheader 2' && styles.selectedSubheaderButton]}
-                            onPress={() => handleSelectSubheader('Subheader 2')}
-                        >
-                            <Text style={styles.subheaderButtonText}>Subheader 2</Text>
-                        </Pressable>
+                        {error && <Text style={styles.errorText}>Error: {error.message}</Text>}
+                        <ScrollView style={styles.scrollView}>
+                            {searchResults.map((item) => {
+                                const artistCost = Math.round(0.20 * item.followers.total).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                });
+
+                                return (
+                                    <Pressable key={item.id} onPress={() => handleSelectArtist(item)} style={styles.artistContainer}>
+                                        <Image
+                                            style={styles.artistImage}
+                                            source={{ uri: item.images.length > 0 ? item.images[0].url : 'placeholder.png' }}
+                                        />
+                                        <View>
+                                            <Text style={styles.artistName}>{item.name}</Text>
+                                            <Text style={styles.artistFollowers}>Artist Cost: {artistCost}</Text>
+                                        </View>
+                                    </Pressable>
+                                );
+                            })}
+                        </ScrollView>
                         <Pressable onPress={() => setModalVisible(false)} style={styles.closeButton}>
                             <Text style={styles.closeButtonText}>Close</Text>
                         </Pressable>
@@ -47,19 +95,35 @@ const Subheaders: React.FC = () => {
                 </View>
             </Modal>
 
-            {selectedSubheader !== '' && (
-                <Text style={styles.subheaderText}>Selected Subheader: {selectedSubheader}</Text>
+            {selectedArtists.length > 0 && (
+                <View style={styles.selectedArtistsContainer}>
+                    <Text style={styles.selectedArtistsText}>Selected Artists:</Text>
+                    {selectedArtists.map((artist, index) => (
+                        <View key={index} style={styles.selectedArtistContainer}>
+                            <Text style={styles.selectedArtistName}>{artist.name}</Text>
+                            <Pressable onPress={() => handleDeleteArtist(index)} style={styles.deleteButton}>
+                                <MaterialIcons name="delete" size={24} color="red" />
+                            </Pressable>
+                        </View>
+                    ))}
+                </View>
             )}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 16,
+        backgroundColor: '#fff',
+    },
     button: {
         backgroundColor: 'blue',
         padding: 15,
         borderRadius: 10,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 20,
     },
     buttonText: {
         color: 'white',
@@ -78,37 +142,86 @@ const styles = StyleSheet.create({
         width: '80%',
         alignItems: 'center',
     },
-    subheaderButton: {
-        backgroundColor: 'lightgray',
+    input: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10,
+        width: '100%',
+    },
+    searchButton: {
+        backgroundColor: 'blue',
         padding: 15,
         borderRadius: 10,
-        width: '100%',
         alignItems: 'center',
-        margin: 5,
+        marginTop: 10,
     },
-    selectedSubheaderButton: {
-        backgroundColor: 'green',
-    },
-    subheaderButtonText: {
+    searchButtonText: {
+        color: 'white',
         fontWeight: 'bold',
+    },
+    artistContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    artistImage: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        marginRight: 10,
+    },
+    artistInfo: {
+        flex: 1,
+    },
+    artistName: {
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    artistFollowers: {
+        fontSize: 14,
+        color: 'gray',
     },
     closeButton: {
         backgroundColor: 'red',
         padding: 15,
         borderRadius: 10,
-        width: '100%',
         alignItems: 'center',
-        margin: 5,
+        marginTop: 10,
     },
     closeButtonText: {
         color: 'white',
         fontWeight: 'bold',
     },
-    subheaderText: {
-        marginTop: 20,
-        fontSize: 16,
+    errorText: {
+        color: 'red',
+        marginBottom: 10,
+    },
+    selectedArtistsContainer: {
+        backgroundColor: '#f0f0f0',
+        padding: 10,
+        marginTop: 10,
+        borderRadius: 5,
+    },
+    selectedArtistsText: {
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 5,
+    },
+    selectedArtistContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 5,
+    },
+    selectedArtistName: {
+        marginLeft: 10,
+    },
+    deleteButton: {
+        marginLeft: 'auto',
+    },
+    scrollView: {
+        maxHeight: 200, // Limit the height of the ScrollView to enable scrolling
     },
 });
 

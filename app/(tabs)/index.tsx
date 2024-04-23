@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Pressable } from 'react-native';
-import { Text, View } from '@/components/Themed';
+import { Text, View } from '../../components/Themed';
 import { Link } from "expo-router";
 
 
