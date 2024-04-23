@@ -1,23 +1,14 @@
 import React, { useState } from 'react';
 import { StyleSheet, Pressable, Modal, View, Text, TextInput, ScrollView, Image } from 'react-native';
-import { encode } from 'base-64';
 import { MaterialIcons } from '@expo/vector-icons';
-
-const clientId = '1a3d3da496d644dcbc9692bdd12edbab';
-const clientSecret = 'ab050522e497418ea0c5c33af68385a1';
-
-type ErrorType = any;
+import { base64Encode, getAccessToken, fetchArtists } from './spotify';
 
 const Headliners: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [searchResults, setSearchResults] = useState<any[]>([]);
     const [modalVisible, setModalVisible] = useState<boolean>(false);
-    const [error, setError] = useState<ErrorType>(null);
+    const [error, setError] = useState<any>(null);
     const [selectedArtists, setSelectedArtists] = useState<any[]>([]);
-
-    const base64Encode = (str: string): string => {
-        return encode(str);
-    };
 
     const searchArtists = async () => {
         const query = searchTerm.trim();
@@ -32,42 +23,6 @@ const Headliners: React.FC = () => {
         } catch (error) {
             setError(error);
         }
-    };
-
-    const getAccessToken = async () => {
-        const authString = `${clientId}:${clientSecret}`;
-        const authBase64 = base64Encode(authString);
-
-        const response = await fetch('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': `Basic ${authBase64}`
-            },
-            body: 'grant_type=client_credentials'
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to retrieve access token');
-        }
-
-        const data = await response.json();
-        return data.access_token;
-    };
-
-    const fetchArtists = async (query: string, accessToken: string) => {
-        const response = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=artist`, {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch artists');
-        }
-
-        const data = await response.json();
-        return data.artists.items;
     };
 
     const handleSelectArtist = (artist: any) => {
