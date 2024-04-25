@@ -31,7 +31,7 @@ export default function Festinit() {
             </View>
             <Link href="/lineup" asChild>
             <Pressable style={styles.button}>
-                <Text style={styles.buttonText}>Next</Text>
+                <Text style={styles.buttonText}>Choose lineup</Text>
             </Pressable>
             </Link>
         </View>
