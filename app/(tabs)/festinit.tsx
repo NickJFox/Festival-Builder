@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, Pressable } from 'react-native';
 import { Text, View } from '../../components/Themed';
-import { budgetSpan } from '.';
 import { useNavigation } from '@react-navigation/native';
+import Festname from '@/components/festname';
+import Theme from '@/components/theme';
 import { Link } from 'expo-router';
-import Headliners from '@/components/headliners';
-import Subheaders from '@/components/subheaders';
+import { budgetSpan } from '.';
 
-export default function TabTwoScreen() {
+
+export default function Festinit() {
     const navigation = useNavigation();
 
     const formattedBudget = budgetSpan.toLocaleString('en-US', {
@@ -25,20 +26,21 @@ export default function TabTwoScreen() {
                 <Text style={styles.budgetText}>Budget: {formattedBudget}</Text>
             </View>
             <View style={styles.buttonContainer}>
-                <Headliners />
-                <Subheaders />
-                <Link href="/lineup2" asChild>
-                    <Pressable style={styles.button}>
-                        <Text style={styles.buttonText}>Choose Support Acts</Text>
-                    </Pressable>
-                </Link>
+                <Festname />
+                <Theme />
             </View>
+            <Link href="/lineup" asChild>
+            <Pressable style={styles.button}>
+                <Text style={styles.buttonText}>Next</Text>
+            </Pressable>
+            </Link>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -62,10 +64,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     buttonContainer: {
-        marginTop: 180,
         alignItems: 'center',
-        marginVertical: 70,
-
+        marginVertical: 50,
     },
     button: {
         backgroundColor: 'blue',

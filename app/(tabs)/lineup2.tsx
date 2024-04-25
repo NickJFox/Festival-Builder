@@ -4,10 +4,9 @@ import { Text, View } from '../../components/Themed';
 import { budgetSpan } from '.';
 import { useNavigation } from '@react-navigation/native';
 import { Link } from 'expo-router';
-import Headliners from '@/components/headliners';
-import Subheaders from '@/components/subheaders';
+import SupportActs from '@/components/supportacts';
 
-export default function TabTwoScreen() {
+export default function Lineup2() {
     const navigation = useNavigation();
 
     const formattedBudget = budgetSpan.toLocaleString('en-US', {
@@ -25,11 +24,10 @@ export default function TabTwoScreen() {
                 <Text style={styles.budgetText}>Budget: {formattedBudget}</Text>
             </View>
             <View style={styles.buttonContainer}>
-                <Headliners />
-                <Subheaders />
+                <SupportActs />
                 <Link href="/lineup2" asChild>
                     <Pressable style={styles.button}>
-                        <Text style={styles.buttonText}>Choose Support Acts</Text>
+                        <Text style={styles.buttonText}>Generate</Text>
                     </Pressable>
                 </Link>
             </View>

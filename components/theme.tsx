@@ -83,9 +83,12 @@ const Theme: React.FC = () => {
 const styles = StyleSheet.create({
     button: {
         backgroundColor: 'blue',
-        padding: 15,
+        paddingVertical: 15,
+        paddingHorizontal: 20,
         borderRadius: 10,
-        alignItems: 'center'
+        minWidth: 200,
+        alignItems: 'center',
+        marginBottom: 10,
     },
     buttonText: {
         color: 'white',

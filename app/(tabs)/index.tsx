@@ -22,19 +22,19 @@ const TabOneScreen: React.FC<TabOneScreenProps> = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Build Your Own Festival</Text>
 
-    <Link href="/lineup" asChild>
+    <Link href="/festinit" asChild>
       <Pressable style={styles.button} onPress={() => { setBudget(1000000)}}>
         <Text style={styles.text}>Small Festival</Text>
       </Pressable>
     </Link>
 
-    <Link href="/lineup" asChild>
+    <Link href="/festinit" asChild>
       <Pressable style={styles.button2} onPress={() => { setBudget(50000000)}}>
         <Text style={styles.text}>Medium Festival</Text>
       </Pressable>
     </Link>
 
-    <Link href="/lineup" asChild>
+    <Link href="/festinit" asChild>
       <Pressable style={styles.button3} onPress={() => { setBudget(100000000)}}>
         <Text style={styles.text}>Large Festival</Text>
       </Pressable>

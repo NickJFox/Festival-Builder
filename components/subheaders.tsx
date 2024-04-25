@@ -120,10 +120,12 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: 'blue',
-        padding: 15,
+        paddingVertical: 15,
+        paddingHorizontal: 20,
         borderRadius: 10,
+        minWidth: 200,
         alignItems: 'center',
-        marginBottom: 20,
+        marginBottom: 10,
     },
     buttonText: {
         color: 'white',
@@ -221,7 +223,7 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
     },
     scrollView: {
-        maxHeight: 200, // Limit the height of the ScrollView to enable scrolling
+        maxHeight: 200,
     },
 });
 
