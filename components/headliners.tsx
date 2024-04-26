@@ -3,7 +3,11 @@ import { StyleSheet, Pressable, Modal, View, Text, TextInput, ScrollView, Image 
 import { MaterialIcons } from '@expo/vector-icons';
 import { base64Encode, getAccessToken, fetchArtists } from './spotify';
 
-const Headliners: React.FC = () => {
+interface Props {
+    onSubtractBudget: (number: number) => void;
+}
+
+const Headliners: React.FC<Props> = ( { onSubtractBudget } ) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [searchResults, setSearchResults] = useState<any[]>([]);
     const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -29,13 +33,19 @@ const Headliners: React.FC = () => {
         if (selectedArtists.length < 2) {
             setSelectedArtists([...selectedArtists, artist]);
             setModalVisible(false); // Close the modal
+            const artistCost = Math.round(0.20 * artist.followers.total); // Calculate artist cost
+            onSubtractBudget(artistCost); // Pass artist cost to parent component
         }
     };
+    
 
     const handleDeleteArtist = (index: number) => {
+        const deletedArtist = selectedArtists[index]; // Get the artist at the specified index
         const updatedArtists = [...selectedArtists];
         updatedArtists.splice(index, 1);
         setSelectedArtists(updatedArtists);
+        const artistCost = Math.round(0.20 * deletedArtist.followers.total); // Calculate artist cost
+        onSubtractBudget(-artistCost); // Pass negative artist cost to add it back to the remaining budget
     };
 
     return (
@@ -100,7 +110,7 @@ const Headliners: React.FC = () => {
                     <Text style={styles.selectedArtistsText}>Selected Artists:</Text>
                     {selectedArtists.map((artist, index) => (
                         <View key={index} style={styles.selectedArtistContainer}>
-                            <Text style={styles.selectedArtistName}>{artist.name}</Text>
+                            <Text style={styles.selectedArtistName}>{artist.name} - {Math.round(0.20 * artist.followers.total).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</Text>
                             <Pressable onPress={() => handleDeleteArtist(index)} style={styles.deleteButton}>
                                 <MaterialIcons name="delete" size={24} color="red" />
                             </Pressable>

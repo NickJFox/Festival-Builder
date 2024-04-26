@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Pressable } from 'react-native';
 import { Text, View } from '../../components/Themed';
 import { budgetSpan } from '.';
@@ -9,7 +9,16 @@ import SupportActs from '@/components/supportacts';
 export default function Lineup2() {
     const navigation = useNavigation();
 
-    const formattedBudget = budgetSpan.toLocaleString('en-US', {
+        // State to hold the remaining budget
+        const [remainingBudget, setRemainingBudget] = useState(budgetSpan); // Initial total budget
+
+        // Function to update the remaining budget
+        const handleSubtractBudget = (artistCost: number) => {
+            // Subtract artist cost from the remaining budget
+            setRemainingBudget(prevBudget => prevBudget - artistCost);
+        };
+
+    const formattedBudget = remainingBudget.toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
         minimumFractionDigits: 0,
@@ -24,7 +33,7 @@ export default function Lineup2() {
                 <Text style={styles.budgetText}>Budget: {formattedBudget}</Text>
             </View>
             <View style={styles.buttonContainer}>
-                <SupportActs />
+                <SupportActs onSubtractBudget={handleSubtractBudget}/>
                 <Link href="/lineup2" asChild>
                     <Pressable style={styles.button}>
                         <Text style={styles.buttonText}>Generate</Text>
