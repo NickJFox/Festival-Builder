@@ -7,9 +7,12 @@ import Theme from '@/components/theme';
 import { Link } from 'expo-router';
 import { budgetSpan } from '.';
 
+export let updatedBudget: number = 0;
 
 export default function Festinit() {
     const navigation = useNavigation();
+
+    updatedBudget = budgetSpan;
 
     const formattedBudget = budgetSpan.toLocaleString('en-US', {
         style: 'currency',

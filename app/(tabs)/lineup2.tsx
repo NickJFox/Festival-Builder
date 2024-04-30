@@ -5,12 +5,14 @@ import { budgetSpan } from '.';
 import { useNavigation } from '@react-navigation/native';
 import { Link } from 'expo-router';
 import SupportActs from '@/components/supportacts';
+import { updatedBudget } from './lineup';
+
 
 export default function Lineup2() {
     const navigation = useNavigation();
 
         // State to hold the remaining budget
-        const [remainingBudget, setRemainingBudget] = useState(budgetSpan); // Initial total budget
+        const [remainingBudget, setRemainingBudget] = useState(updatedBudget); // Initial total budget
 
         // Function to update the remaining budget
         const handleSubtractBudget = (artistCost: number) => {
@@ -34,7 +36,7 @@ export default function Lineup2() {
             </View>
             <View style={styles.buttonContainer}>
                 <SupportActs onSubtractBudget={handleSubtractBudget}/>
-                <Link href="/lineup2" asChild>
+                <Link href="/generatedfest" asChild>
                     <Pressable style={styles.button}>
                         <Text style={styles.buttonText}>Generate</Text>
                     </Pressable>
