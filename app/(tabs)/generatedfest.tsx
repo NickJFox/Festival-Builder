@@ -1,26 +1,49 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, Pressable } from 'react-native';
 import { Text, View } from '../../components/Themed';
 import { useNavigation } from '@react-navigation/native';
+import Festname from '@/components/festname';
+import Theme from '@/components/theme';
+import { Link } from 'expo-router';
+import { budgetSpan } from '.';
 
+export let updatedBudget: number = 0;
 
-export default function generatedFest() {
+export default function generatedfest() {
     const navigation = useNavigation();
+
+    updatedBudget = budgetSpan;
+
+    const formattedBudget = budgetSpan.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+    });
 
     return (
         <View style={styles.container}>
             <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
                 <Text style={styles.backButtonText}>{'<'}</Text>
             </Pressable>
-            <View style={styles.buttonContainer}>
-                <Text>Generated Festival Here</Text>
+            <View style={styles.budgetContainer}>
+                <Text style={styles.budgetText}>Budget: {formattedBudget}</Text>
             </View>
+            <View style={styles.buttonContainer}>
+                <Festname />
+                <Theme />
+            </View>
+            <Link href="/lineup" asChild>
+            <Pressable style={styles.button}>
+                <Text style={styles.buttonText}>Choose lineup</Text>
+            </Pressable>
+            </Link>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -44,10 +67,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     buttonContainer: {
-        marginTop: 180,
         alignItems: 'center',
-        marginVertical: 70,
-
+        marginVertical: 50,
     },
     button: {
         backgroundColor: 'blue',
