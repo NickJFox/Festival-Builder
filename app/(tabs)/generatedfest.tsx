@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Pressable } from 'react-native';
 import { Text, View } from '../../components/Themed';
 import { useNavigation } from '@react-navigation/native';
@@ -6,10 +6,11 @@ import Festname from '@/components/festname';
 import Theme from '@/components/theme';
 import { Link } from 'expo-router';
 import { budgetSpan } from '.';
+import { selectedHeadliners } from "@/components/headliners";
 
 export let updatedBudget: number = 0;
 
-export default function generatedfest() {
+export default function GeneratedFest() { // Renamed function name to follow convention
     const navigation = useNavigation();
 
     updatedBudget = budgetSpan;
@@ -25,17 +26,16 @@ export default function generatedfest() {
             <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
                 <Text style={styles.backButtonText}>{'<'}</Text>
             </Pressable>
-            <View style={styles.budgetContainer}>
-                <Text style={styles.budgetText}>Budget: {formattedBudget}</Text>
-            </View>
-            <View style={styles.buttonContainer}>
-                <Festname />
-                <Theme />
+            <View>
+                <Text>Selected Artists:</Text>
+                {selectedHeadliners.map((artist: any, index: number) => ( // Ensure correct type for artist and index
+                    <Text key={index}>{artist.name}</Text>
+                ))}
             </View>
             <Link href="/lineup" asChild>
-            <Pressable style={styles.button}>
-                <Text style={styles.buttonText}>Choose lineup</Text>
-            </Pressable>
+                <Pressable style={styles.button}>
+                    <Text style={styles.buttonText}>Fest Generated</Text>
+                </Pressable>
             </Link>
         </View>
     );
