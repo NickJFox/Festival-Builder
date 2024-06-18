@@ -14,7 +14,10 @@ import { selectedFestTheme } from '@/components/theme';
 const { width, height } = Dimensions.get('window');
 
 const beachImage = { uri: `https://i.pinimg.com/564x/b1/85/35/b18535bad5094bc64601042451bef351.jpg`};
-
+// forestImage https://pics.craiyon.com/2023-12-03/-BjUvyNfQjGS90jA7Rn61g.webp
+// desertImage 
+// countryImage
+// urbanImage
 
 export let updatedBudget: number = 0;
 
