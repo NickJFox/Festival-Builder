@@ -7,12 +7,16 @@ interface Props {
     onSubtractBudget: (number: number) => void;
 }
 
+export let selectedSubHeaders: Array<any> = [];
+
 const Subheaders: React.FC<Props> = ( { onSubtractBudget } ) => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [searchResults, setSearchResults] = useState<any[]>([]);
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [error, setError] = useState<any>(null);
     const [selectedArtists, setSelectedArtists] = useState<any[]>([]);
+
+    selectedSubHeaders = selectedArtists;
 
     const searchArtists = async () => {
         const query = searchTerm.trim();

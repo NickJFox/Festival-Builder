@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Pressable } from 'react-native';
 import { Text, View } from '../../components/Themed';
 import { useNavigation } from '@react-navigation/native';
-import Festname from '@/components/festname';
-import Theme from '@/components/theme';
 import { Link } from 'expo-router';
 import { budgetSpan } from '.';
 import { selectedHeadliners } from "@/components/headliners";
+import { selectedSubHeaders } from '@/components/subheaders';
+import { selectedSupportActs } from '@/components/supportacts';
+import { selectedFestName } from '@/components/festname';
+import { selectedFestTheme } from '@/components/theme';
 
 export let updatedBudget: number = 0;
 
@@ -21,22 +23,37 @@ export default function GeneratedFest() { // Renamed function name to follow con
         minimumFractionDigits: 0,
     });
 
+    const renderArtistsWithSeparator = (artists: any, style: any) => (
+        artists.map((artist: any, index: any) => (
+            <Text key={index} style={style}>
+                {artist.name}{index < artists.length - 1 && ' •'}
+            </Text>
+        ))
+    );
+
     return (
         <View style={styles.container}>
             <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
                 <Text style={styles.backButtonText}>{'<'}</Text>
             </Pressable>
-            <View>
-                <Text>Selected Artists:</Text>
-                {selectedHeadliners.map((artist: any, index: number) => ( // Ensure correct type for artist and index
-                    <Text key={index}>{artist.name}</Text>
-                ))}
+            <View style={styles.headerContainer}>
+                <Text style={styles.header}>{selectedFestName}</Text>
             </View>
-            <Link href="/lineup" asChild>
-                <Pressable style={styles.button}>
-                    <Text style={styles.buttonText}>Fest Generated</Text>
-                </Pressable>
-            </Link>
+            <View>
+                <View style={styles.headlinersContainer}>
+                    {renderArtistsWithSeparator(selectedHeadliners, styles.headliner)}
+                </View>
+            </View>
+            <View>
+                <View style={styles.subsContainer}>
+                    {renderArtistsWithSeparator(selectedSubHeaders, styles.subHeader)}
+                </View>
+            </View>
+            <View>
+                <View style={styles.supportContainer}>
+                    {renderArtistsWithSeparator(selectedSupportActs, styles.support)}
+                </View>
+            </View>
         </View>
     );
 }
@@ -82,5 +99,43 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontWeight: 'bold',
+    },
+    headlinersContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    subsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    supportContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    headerContainer: {
+        position: 'absolute',
+        top: 180,
+        width: '100%',
+        alignItems: 'center',
+        zIndex: 1,
+      },
+    header: {
+        fontSize: 34,
+        fontWeight: 'bold',
+        marginRight: 10,
+    },
+    headliner: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginRight: 10,
+    },
+    subHeader: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginRight: 8,
+    },
+    support: {
+        fontSize: 16,
+        marginRight: 6,
     },
 });

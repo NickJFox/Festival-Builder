@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, Pressable, Modal, TextInput, Button, View, Text } from 'react-native';
 
+export let selectedFestName: String = "";
+
 export default function Festname() {
     const [festivalName, setFestivalName] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
+
+    selectedFestName = festivalName;
 
     const handleModalSubmit = () => {
         setModalVisible(false);

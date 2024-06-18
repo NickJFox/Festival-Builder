@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, Pressable, Modal, View, Text } from 'react-native';
 
+export let selectedFestTheme: String = "";
+
 const Theme: React.FC = () => {
     const [selectedTheme, setSelectedTheme] = useState<string>('');
     const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+    selectedFestTheme = selectedTheme;
 
     const handleSelectTheme = (theme: string) => {
         if (selectedTheme === theme) {

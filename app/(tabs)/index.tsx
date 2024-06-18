@@ -30,7 +30,7 @@ const TabOneScreen: React.FC<TabOneScreenProps> = () => {
         <Text style={styles.title}>Build Your Own Festival!</Text>
 
         <Link href="/festinit" asChild>
-          <Pressable style={styles.button} onPress={() => { setBudget(1000000) }}>
+          <Pressable style={styles.button} onPress={() => { setBudget(10000000) }}>
             <Text style={styles.text}>Small Festival</Text>
           </Pressable>
         </Link>
