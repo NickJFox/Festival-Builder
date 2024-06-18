@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, Pressable, ImageBackground, Dimensions, View as RNView  } from 'react-native';
 import { Text, View } from '../../components/Themed';
 import { useNavigation } from '@react-navigation/native';
 import { Link } from 'expo-router';
@@ -9,6 +9,12 @@ import { selectedSubHeaders } from '@/components/subheaders';
 import { selectedSupportActs } from '@/components/supportacts';
 import { selectedFestName } from '@/components/festname';
 import { selectedFestTheme } from '@/components/theme';
+
+
+const { width, height } = Dimensions.get('window');
+
+const beachImage = { uri: `https://i.pinimg.com/564x/b1/85/35/b18535bad5094bc64601042451bef351.jpg`};
+
 
 export let updatedBudget: number = 0;
 
@@ -33,27 +39,24 @@ export default function GeneratedFest() { // Renamed function name to follow con
 
     return (
         <View style={styles.container}>
+            <ImageBackground source={beachImage} resizeMode="cover" style={styles.image}>
+            <RNView style={styles.overlay} />
             <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
                 <Text style={styles.backButtonText}>{'<'}</Text>
             </Pressable>
             <View style={styles.headerContainer}>
                 <Text style={styles.header}>{selectedFestName}</Text>
             </View>
-            <View>
                 <View style={styles.headlinersContainer}>
                     {renderArtistsWithSeparator(selectedHeadliners, styles.headliner)}
                 </View>
-            </View>
-            <View>
                 <View style={styles.subsContainer}>
                     {renderArtistsWithSeparator(selectedSubHeaders, styles.subHeader)}
                 </View>
-            </View>
-            <View>
                 <View style={styles.supportContainer}>
                     {renderArtistsWithSeparator(selectedSupportActs, styles.support)}
                 </View>
-            </View>
+            </ImageBackground>
         </View>
     );
 }
@@ -64,6 +67,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    image: {
+        flex: 1,
+        width: width,
+        height: height,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'white',
+        opacity: 0.5,
+        zIndex: 0,
+      },
     backButton: {
         position: 'absolute',
         top: 40,
@@ -101,14 +121,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     headlinersContainer: {
+        backgroundColor: 'transparent',
         flexDirection: 'row',
         flexWrap: 'wrap',
     },
     subsContainer: {
+        backgroundColor: 'transparent',
         flexDirection: 'row',
         flexWrap: 'wrap',
     },
     supportContainer: {
+        backgroundColor: 'transparent',
         flexDirection: 'row',
         flexWrap: 'wrap',
     },
@@ -118,6 +141,7 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         zIndex: 1,
+        backgroundColor: 'transparent',
       },
     header: {
         fontSize: 34,
