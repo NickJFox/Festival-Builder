@@ -36,18 +36,19 @@ export default function Lineup2() {
             </View>
             <View style={styles.buttonContainer}>
                 <SupportActs onSubtractBudget={handleSubtractBudget}/>
+            </View>
                 <Link href="/generatedfest" asChild>
-                    <Pressable style={styles.button}>
+                    <Pressable style={styles.button2}>
                         <Text style={styles.buttonText}>Generate</Text>
                     </Pressable>
                 </Link>
-            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -71,13 +72,20 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     buttonContainer: {
-        marginTop: 180,
         alignItems: 'center',
-        marginVertical: 70,
-
+        marginVertical: 50,
     },
     button: {
         backgroundColor: 'blue',
+        paddingVertical: 15,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        minWidth: 200,
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    button2: {
+        backgroundColor: '#008000',
         paddingVertical: 15,
         paddingHorizontal: 20,
         borderRadius: 10,

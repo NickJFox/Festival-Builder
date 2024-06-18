@@ -33,7 +33,7 @@ export default function Festinit() {
                 <Theme />
             </View>
             <Link href="/lineup" asChild>
-            <Pressable style={styles.button}>
+            <Pressable style={styles.button2}>
                 <Text style={styles.buttonText}>Choose lineup</Text>
             </Pressable>
             </Link>
@@ -72,6 +72,15 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: 'blue',
+        paddingVertical: 15,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        minWidth: 200,
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    button2: {
+        backgroundColor: '#008000',
         paddingVertical: 15,
         paddingHorizontal: 20,
         borderRadius: 10,

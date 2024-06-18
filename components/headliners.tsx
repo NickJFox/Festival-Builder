@@ -53,7 +53,7 @@ const Headliners: React.FC<Props> = ( { onSubtractBudget } ) => {
     };
 
     return (
-        <View style={styles.container}>
+        <View>
             <Pressable onPress={() => setModalVisible(true)} style={styles.button}>
                 <Text style={styles.buttonText}>Choose 2 Headliners</Text>
             </Pressable>
@@ -127,11 +127,6 @@ const Headliners: React.FC<Props> = ( { onSubtractBudget } ) => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 16,
-        backgroundColor: '#fff',
-    },
     button: {
         backgroundColor: 'blue',
         paddingVertical: 15,
@@ -219,6 +214,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f0f0f0',
         padding: 10,
         marginTop: 10,
+        marginBottom: 10,
         borderRadius: 5,
     },
     selectedArtistsText: {

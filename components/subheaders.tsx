@@ -49,7 +49,7 @@ const Subheaders: React.FC<Props> = ( { onSubtractBudget } ) => {
     };
 
     return (
-        <View style={styles.container}>
+        <View>
             <Pressable onPress={() => setModalVisible(true)} style={styles.button}>
                 <Text style={styles.buttonText}>Choose 4 Sub-Headliners</Text>
             </Pressable>
@@ -123,11 +123,6 @@ const Subheaders: React.FC<Props> = ( { onSubtractBudget } ) => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 16,
-        backgroundColor: '#fff',
-    },
     button: {
         backgroundColor: 'blue',
         paddingVertical: 15,
