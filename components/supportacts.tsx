@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Pressable, Modal, View, Text, TextInput, ScrollView, Image } from 'react-native';
+import { StyleSheet, Pressable, Modal, View, Text, TextInput, ScrollView, Image, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { base64Encode, getAccessToken, fetchArtists } from './spotify';
+import { updatedBudget } from '@/app/(tabs)/lineup';
 
 interface Props {
     onSubtractBudget: (number: number) => void;
@@ -15,6 +16,8 @@ const SupportActs: React.FC<Props> = ({ onSubtractBudget }) => {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [error, setError] = useState<any>(null);
     const [selectedArtists, setSelectedArtists] = useState<any[]>([]);
+    const [remainingBudget, setRemainingBudget] = useState<number>(updatedBudget); // Initialize with the updated budget
+
 
     selectedSupportActs = selectedArtists;
 
@@ -35,21 +38,37 @@ const SupportActs: React.FC<Props> = ({ onSubtractBudget }) => {
 
     const handleSelectArtist = (artist: any) => {
         if (selectedArtists.length < 8) {
-            setSelectedArtists([...selectedArtists, artist]);
-            setModalVisible(false); // Close the modal
-            const artistCost = Math.round(0.20 * artist.followers.total); // Calculate artist cost
-            onSubtractBudget(artistCost); // Pass artist cost to parent component
+            const artistCost = Math.round(0.20 * artist.followers.total);
+            if (handleSubtractBudget(artistCost)) {
+                setSelectedArtists([...selectedArtists, artist]);
+                setModalVisible(false);
+                onSubtractBudget(artistCost);
+            }
+        } else {
+            Alert.alert('Cannot add more support acts. Limit reached.');
         }
     };
-    
 
     const handleDeleteArtist = (index: number) => {
-        const deletedArtist = selectedArtists[index]; // Get the artist at the specified index
-        const updatedArtists = [...selectedArtists];
-        updatedArtists.splice(index, 1);
-        setSelectedArtists(updatedArtists);
-        const artistCost = Math.round(0.20 * deletedArtist.followers.total); // Calculate artist cost
-        onSubtractBudget(-artistCost); // Pass negative artist cost to add it back to the remaining budget
+        const deletedArtist = selectedArtists[index];
+        const artistCost = Math.round(0.20 * deletedArtist.followers.total);
+        setSelectedArtists((prevArtists) => {
+            const updatedArtists = [...prevArtists];
+            updatedArtists.splice(index, 1);
+            return updatedArtists;
+        });
+        onSubtractBudget(-artistCost);
+    };
+
+    const handleSubtractBudget = (artistCost: number) => {
+        // Ensure budget logic similar to Headliners and Subheaders components
+        const newBudget = remainingBudget - artistCost;
+        if (newBudget < 0) {
+            Alert.alert('Cannot add more artists. Budget exceeded.');
+            return false;
+        }
+        setRemainingBudget(newBudget);
+        return true;
     };
 
     return (
@@ -114,7 +133,12 @@ const SupportActs: React.FC<Props> = ({ onSubtractBudget }) => {
                     <Text style={styles.selectedArtistsText}>Selected Artists:</Text>
                     {selectedArtists.map((artist, index) => (
                         <View key={index} style={styles.selectedArtistContainer}>
-                            <Text style={styles.selectedArtistName}>{artist.name} - {Math.round(0.20 * artist.followers.total).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</Text>
+                            <Text style={styles.selectedArtistName}>
+                                {artist.name} - {Math.round(0.20 * artist.followers.total).toLocaleString('en-US', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                })}
+                            </Text>
                             <Pressable onPress={() => handleDeleteArtist(index)} style={styles.deleteButton}>
                                 <MaterialIcons name="delete" size={24} color="red" />
                             </Pressable>
@@ -124,7 +148,7 @@ const SupportActs: React.FC<Props> = ({ onSubtractBudget }) => {
             )}
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     button: {
@@ -232,7 +256,7 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
     },
     scrollView: {
-        maxHeight: 200, // Limit the height of the ScrollView to enable scrolling
+        maxHeight: 200,
     },
 });
 
