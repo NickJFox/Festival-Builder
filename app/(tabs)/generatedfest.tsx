@@ -13,11 +13,32 @@ import { selectedFestTheme } from '@/components/theme';
 
 const { width, height } = Dimensions.get('window');
 
+
 const beachImage = { uri: `https://i.pinimg.com/564x/b1/85/35/b18535bad5094bc64601042451bef351.jpg`};
-// forestImage https://pics.craiyon.com/2023-12-03/-BjUvyNfQjGS90jA7Rn61g.webp
-// desertImage 
-// countryImage
-// urbanImage
+const forestImage = { uri: `https://pics.craiyon.com/2023-12-03/-BjUvyNfQjGS90jA7Rn61g.webp`};
+const mtsImage = { uri: `https://assets.wfcdn.com/im/05196426/resize-h445%5Ecompr-r85/2395/239588670/%22+Landscape+Mountain+%22.jpg`};
+const desertImage = { uri: `https://static.vecteezy.com/system/resources/previews/000/224/422/large_2x/vector-desert-landscape-illustration.jpg`};
+const countryImage = { uri: `https://st5.depositphotos.com/75677278/63450/v/450/depositphotos_634502478-stock-illustration-autumn-sunny-eco-harvesting-farm.jpg`};
+const urbanImage = { uri: `https://static.vecteezy.com/system/resources/previews/005/006/728/original/sunset-modern-city-skyline-landscape-with-orange-sky-of-town-buildings-and-cityscape-sky-in-flat-illustration-for-poster-banner-or-background-vector.jpg`};
+
+const getImageByTheme = (theme: string) => {
+    switch (theme) {
+        case 'Beach':
+            return beachImage;
+        case 'Forest':
+            return forestImage;
+        case 'Mountains':
+            return mtsImage;
+        case 'Desert':
+            return desertImage;
+        case 'Country':
+            return countryImage;
+        case 'Urban':
+            return urbanImage;
+        default:
+            return beachImage; // Default image if theme doesn't match
+    }
+};
 
 export let updatedBudget: number = 0;
 
@@ -42,7 +63,7 @@ export default function GeneratedFest() { // Renamed function name to follow con
 
     return (
         <View style={styles.container}>
-            <ImageBackground source={beachImage} resizeMode="cover" style={styles.image}>
+            <ImageBackground source={getImageByTheme(selectedFestTheme)} resizeMode="cover" style={styles.image}>
             <RNView style={styles.overlay} />
             <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
                 <Text style={styles.backButtonText}>{'<'}</Text>

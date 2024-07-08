@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Pressable, Modal, View, Text } from 'react-native';
 
-export let selectedFestTheme: String = "";
+export let selectedFestTheme: string = "";
 
 const Theme: React.FC = () => {
     const [selectedTheme, setSelectedTheme] = useState<string>('');
@@ -50,6 +50,12 @@ const Theme: React.FC = () => {
                             onPress={() => handleSelectTheme('Forest')}
                         >
                             <Text style={styles.themeButtonText}>Forest</Text>
+                        </Pressable>
+                        <Pressable
+                            style={[styles.themeButton, selectedTheme === 'Mountains' && styles.selectedThemeButton]}
+                            onPress={() => handleSelectTheme('Mountains')}
+                        >
+                            <Text style={styles.themeButtonText}>Mountains</Text>
                         </Pressable>
                         <Pressable
                             style={[styles.themeButton, selectedTheme === 'Desert' && styles.selectedThemeButton]}
