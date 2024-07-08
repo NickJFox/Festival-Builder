@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Pressable, ImageBackground, Dimensions, View as RNView  } from 'react-native';
+import { StyleSheet, Pressable, ImageBackground, Dimensions, View as RNView } from 'react-native';
 import { Text, View } from '../../components/Themed';
 import { useNavigation } from '@react-navigation/native';
 import { Link } from 'expo-router';
@@ -14,12 +14,12 @@ import { selectedFestTheme } from '@/components/theme';
 const { width, height } = Dimensions.get('window');
 
 
-const beachImage = { uri: `https://i.pinimg.com/564x/b1/85/35/b18535bad5094bc64601042451bef351.jpg`};
-const forestImage = { uri: `https://pics.craiyon.com/2023-12-03/-BjUvyNfQjGS90jA7Rn61g.webp`};
-const mtsImage = { uri: `https://assets.wfcdn.com/im/05196426/resize-h445%5Ecompr-r85/2395/239588670/%22+Landscape+Mountain+%22.jpg`};
-const desertImage = { uri: `https://static.vecteezy.com/system/resources/previews/000/224/422/large_2x/vector-desert-landscape-illustration.jpg`};
-const countryImage = { uri: `https://st5.depositphotos.com/75677278/63450/v/450/depositphotos_634502478-stock-illustration-autumn-sunny-eco-harvesting-farm.jpg`};
-const urbanImage = { uri: `https://static.vecteezy.com/system/resources/previews/005/006/728/original/sunset-modern-city-skyline-landscape-with-orange-sky-of-town-buildings-and-cityscape-sky-in-flat-illustration-for-poster-banner-or-background-vector.jpg`};
+const beachImage = { uri: `https://i.pinimg.com/564x/b1/85/35/b18535bad5094bc64601042451bef351.jpg` };
+const forestImage = { uri: `https://pics.craiyon.com/2023-12-03/-BjUvyNfQjGS90jA7Rn61g.webp` };
+const mtsImage = { uri: `https://assets.wfcdn.com/im/05196426/resize-h445%5Ecompr-r85/2395/239588670/%22+Landscape+Mountain+%22.jpg` };
+const desertImage = { uri: `https://static.vecteezy.com/system/resources/previews/000/224/422/large_2x/vector-desert-landscape-illustration.jpg` };
+const countryImage = { uri: `https://st5.depositphotos.com/75677278/63450/v/450/depositphotos_634502478-stock-illustration-autumn-sunny-eco-harvesting-farm.jpg` };
+const urbanImage = { uri: `https://static.vecteezy.com/system/resources/previews/005/006/728/original/sunset-modern-city-skyline-landscape-with-orange-sky-of-town-buildings-and-cityscape-sky-in-flat-illustration-for-poster-banner-or-background-vector.jpg` };
 
 const getImageByTheme = (theme: string) => {
     switch (theme) {
@@ -64,13 +64,13 @@ export default function GeneratedFest() { // Renamed function name to follow con
     return (
         <View style={styles.container}>
             <ImageBackground source={getImageByTheme(selectedFestTheme)} resizeMode="cover" style={styles.image}>
-            <RNView style={styles.overlay} />
-            <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
-                <Text style={styles.backButtonText}>{'<'}</Text>
-            </Pressable>
-            <View style={styles.headerContainer}>
-                <Text style={styles.header}>{selectedFestName}</Text>
-            </View>
+                <RNView style={styles.overlay} />
+                <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
+                    <Text style={styles.backButtonText}>{'<'}</Text>
+                </Pressable>
+                <View style={styles.headerContainer}>
+                    <Text style={styles.header}>{selectedFestName}</Text>
+                </View>
                 <View style={styles.headlinersContainer}>
                     {renderArtistsWithSeparator(selectedHeadliners, styles.headliner)}
                 </View>
@@ -97,17 +97,17 @@ const styles = StyleSheet.create({
         height: height,
         justifyContent: 'center',
         alignItems: 'center',
-      },
-      overlay: {
+    },
+    overlay: {
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'white',
+        backgroundColor: 'black',
         opacity: 0.5,
         zIndex: 0,
-      },
+    },
     backButton: {
         position: 'absolute',
         top: 40,
@@ -148,16 +148,25 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         flexDirection: 'row',
         flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
     },
     subsContainer: {
         backgroundColor: 'transparent',
         flexDirection: 'row',
         flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
     },
     supportContainer: {
         backgroundColor: 'transparent',
         flexDirection: 'row',
         flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
     },
     headerContainer: {
         position: 'absolute',
@@ -166,24 +175,28 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         zIndex: 1,
         backgroundColor: 'transparent',
-      },
+    },
     header: {
         fontSize: 34,
         fontWeight: 'bold',
+        color: 'white',
         marginRight: 10,
     },
     headliner: {
         fontSize: 24,
         fontWeight: 'bold',
+        color: 'white',
         marginRight: 10,
     },
     subHeader: {
         fontSize: 20,
         fontWeight: 'bold',
+        color: 'white',
         marginRight: 8,
     },
     support: {
         fontSize: 16,
+        color: 'white',
         marginRight: 6,
     },
 });
