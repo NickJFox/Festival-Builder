@@ -1,7 +1,8 @@
 import { encode } from 'base-64';
+import { CLIENT_ID, CLIENT_SECRET } from '@env';
 
-const clientId = '1a3d3da496d644dcbc9692bdd12edbab';
-const clientSecret = 'ab050522e497418ea0c5c33af68385a1';
+const clientId = CLIENT_ID;
+const clientSecret = CLIENT_SECRET;
 
 type ErrorType = any;
 
