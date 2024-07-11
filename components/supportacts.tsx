@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Pressable, Modal, View, Text, TextInput, ScrollView, Image, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { base64Encode, getAccessToken, fetchArtists } from './spotify';
+import { getAccessToken, fetchArtists } from './spotify';
 import { updatedBudget } from '@/app/(tabs)/lineup';
 
 interface Props {
@@ -61,7 +61,6 @@ const SupportActs: React.FC<Props> = ({ onSubtractBudget }) => {
     };
 
     const handleSubtractBudget = (artistCost: number) => {
-        // Ensure budget logic similar to Headliners and Subheaders components
         const newBudget = remainingBudget - artistCost;
         if (newBudget < 0) {
             Alert.alert('Cannot add more artists. Budget exceeded.');

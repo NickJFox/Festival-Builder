@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Pressable, Modal, View, Text, TextInput, ScrollView, Image, Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { base64Encode, getAccessToken, fetchArtists } from './spotify';
-import { updatedBudget } from '@/app/(tabs)/festinit'; // Ensure this import is correctly resolved
+import { getAccessToken, fetchArtists } from './spotify';
+import { updatedBudget } from '@/app/(tabs)/festinit';
 
 interface Props {
     onSubtractBudget: (number: number) => void;

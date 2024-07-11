@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Pressable } from 'react-native';
 import { Text, View } from '../../components/Themed';
-import { budgetSpan } from '.';
 import { useNavigation } from '@react-navigation/native';
 import { Link } from 'expo-router';
 import SupportActs from '@/components/supportacts';

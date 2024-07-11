@@ -19,7 +19,6 @@ const Theme: React.FC = () => {
 
     const handleModalSubmit = () => {
         setModalVisible(false);
-        // Perform any action with the selectedTheme state here, such as saving it to a database or displaying it below the button.
     };
 
     return (

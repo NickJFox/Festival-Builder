@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Pressable, ImageBackground, Dimensions, View as RNView } from 'react-native';
 import { Text, View } from '../../components/Themed';
 import { useNavigation } from '@react-navigation/native';
-import { Link } from 'expo-router';
 import { budgetSpan } from '.';
 import { selectedHeadliners } from "@/components/headliners";
 import { selectedSubHeaders } from '@/components/subheaders';
@@ -36,22 +35,16 @@ const getImageByTheme = (theme: string) => {
         case 'Urban':
             return urbanImage;
         default:
-            return beachImage; // Default image if theme doesn't match
+            return beachImage;
     }
 };
 
 export let updatedBudget: number = 0;
 
-export default function GeneratedFest() { // Renamed function name to follow convention
+export default function GeneratedFest() {
     const navigation = useNavigation();
 
     updatedBudget = budgetSpan;
-
-    const formattedBudget = budgetSpan.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 0,
-    });
 
     const renderArtistsWithSeparator = (artists: any, style: any) => (
         artists.map((artist: any, index: any) => (

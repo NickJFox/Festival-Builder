@@ -11,7 +11,6 @@ export default function Festname() {
 
     const handleModalSubmit = () => {
         setModalVisible(false);
-        // You can perform any action with the festivalName state here, such as saving it to a database or displaying it below the button.
     };
 
     return (

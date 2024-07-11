@@ -5,17 +5,12 @@ import { Link } from "expo-router";
 
 const { width, height } = Dimensions.get('window');
 
-
-interface TabOneScreenProps {
-  // Put any props needed here
-}
-
 const image = { uri: 'https://blackwhite.pictures/media/t/1204/music-festival-crowd-royalty-free-stock-photo-and-image-2911.jpg' };
 
 
 export let budgetSpan: number = 0;
 
-const TabOneScreen: React.FC<TabOneScreenProps> = () => {
+const TabOneScreen: React.FC = () => {
 
   const [budget, setBudget] = useState(0);
 
@@ -23,7 +18,6 @@ const TabOneScreen: React.FC<TabOneScreenProps> = () => {
 
 
   return (
-    // Thinking to add Festival Background PNG as a background image
     <View style={styles.container}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <RNView style={styles.overlay} />
